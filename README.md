@@ -56,6 +56,31 @@ env -u CUDA_HOME MAX_JOBS=1 python -m pip install \
 python -m pip install --no-build-isolation --no-deps -e .
 ```
 
+### Download Pretrained models
+
+1. **[Qwen3-Omni Audio Encoder](https://huggingface.co/Atotti/Qwen3-Omni-AudioTransformer/tree/main)**: the extracted audio encoder; the full Qwen3-Omni model is not required.
+2. **[AV-HuBERT Large](https://facebookresearch.github.io/av_hubert/)**: `large_vox_iter5.pt`, pretrained on LRS3 + VoxCeleb2 without fine-tuning.
+3. **[Dolphin-small](https://huggingface.co/DataoceanAI/dolphin-small/tree/main)**: `small.pt` and its configuration, tokenizer, and normalization files.
+
+Run the script below to download all three resources to the paths in `configs/maple.yml`.
+```bash
+# Run from the repository root in the maple environment.
+# Downloaded files:
+# weights/
+# |-- Qwen3-Omni-AudioTransformer/
+# |   |-- config.json
+# |   |-- preprocessor_config.json
+# |   `-- model.safetensors
+# |-- avhubert/
+# |   `-- large_vox_iter5.pt
+# `-- dolphin/
+#     |-- small.pt
+#     |-- config.yaml
+#     |-- bpe.model
+#     `-- feats_stats.npz
+python scripts/download_pretrained.py
+```
+
 ### Running the Demo
 
 
