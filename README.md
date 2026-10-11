@@ -81,25 +81,40 @@ Run the script below to download all three resources to the paths in `configs/ma
 python scripts/download_pretrained.py
 ```
 
+### Download our models
+
+
 ### Running the Demo
-
-
 
 
 ### Data preparation
 
 
 
-### Training
+## ⚙️ Training
 
-### 1. Train the unimodal branches
+### Data preparation
+
+Obtain MSDM through the [official MDSA Challenge website](https://huanraozhineng1.github.io/MSDM/), which links to the [Tianchi platform](https://tianchi.aliyun.com/competition/entrance/532191). For access requests, contact the organizers listed on the official website. We do not redistribute the dataset.
+
+Place `MSDM.zip` (containing `Classification_Label.zip` and `Speech_Recognition_Task.zip`) in `datasets/`, then run:
+
+```bash
+# datasets/
+# `-- MSDM.zip
+python scripts/prepare_msdm.py
+```
+
+The script extracts the data to `datasets/MSDM/` and generates the fixed Train/Val/Test manifests in `datasets/MSDM/manifests/`.
+
+### Train the unimodal branches
 
 
-### 2. Train the experts
+### Train the experts
 
 
 
-### 3. Train the sparse router
+### Train the sparse router
 
 
 
