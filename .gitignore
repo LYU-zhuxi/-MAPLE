@@ -3,7 +3,11 @@ __pycache__/
 *.egg-info/
 .venv/
 .pytest_cache/
-datasets/
+checkpoints/*
+!chekpoints/.gitkeep
+datasets/*
+!datasets/.gitkeep
+docs/
 runs/
 weights/*
 !weights/.gitkeep
