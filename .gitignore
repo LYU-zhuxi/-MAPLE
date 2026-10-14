@@ -4,7 +4,7 @@ __pycache__/
 .venv/
 .pytest_cache/
 checkpoints/*
-!chekpoints/.gitkeep
+!checkpoints/.gitkeep
 datasets/*
 !datasets/.gitkeep
 docs/
