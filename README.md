@@ -4,7 +4,7 @@ This is the official repository for the paper:
 
 > MAPLE: Multi-layer pathology modeling and sparse expert fusion for audio-visual dysarthria severity assessment.
 > [![Arxiv](https://img.shields.io/badge/Arxiv--b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/)
-> [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-blue)](https://huggingface.co/your-model)
+> [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-blue)](https://huggingface.co/Lyu-1211/maple)
 
 [Overview](#-overview) | [To-Do List](#-to-do-list) | [Quick Start](#-quick-start)
 
@@ -23,7 +23,7 @@ MAPLE combines multi-layer audio and visual representations with two complementa
 - [x] Submitted to ICASSP 2027
 - [ ] Release project paper
 - [ ] Release code
-- [ ] Release pretrained models
+- [x] Release pretrained models
 
 ## 🚀 Quick Start
 
@@ -65,6 +65,8 @@ python -m pip install --no-build-isolation --no-deps -e .
 Run the script below to download all three resources to the paths in `configs/maple.yml`.
 ```bash
 # Run from the repository root in the maple environment.
+python scripts/download_pretrained.py
+
 # Downloaded files:
 # weights/
 # |-- Qwen3-Omni-AudioTransformer/
@@ -78,20 +80,19 @@ Run the script below to download all three resources to the paths in `configs/ma
 #     |-- config.yaml
 #     |-- bpe.model
 #     `-- feats_stats.npz
-python scripts/download_pretrained.py
 ```
 
 ### Download Our Models
 
 Download our trained checkpoints from [Hugging Face](https://huggingface.co/Lyu-1211/maple) and place them in `checkpoints/`:
 
-```text
-checkpoints/maple_best/
-|-- audio/best.pt
-|-- video/best.pt
-|-- static/best.pt
-|-- synergy/best.pt
-`-- router/best.pt
+```bash
+# checkpoints/maple_best/
+# |-- audio/best.pt
+# |-- video/best.pt
+# |-- static/best.pt
+# |-- synergy/best.pt
+# `-- router/best.pt
 ```
 
 ### Inference
