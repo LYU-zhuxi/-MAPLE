@@ -1,0 +1,23 @@
+# Branch training.
+# best.pt uses the lowest validation CE; min_delta controls early stopping only.
+audio:
+  seed: 42
+  epochs: 30
+  lr: 1.0e-4
+  batch_size: 16
+  val_batch_size: 16
+  num_workers: 4
+  early_stopping:
+    patience: 10
+    min_delta: 1.0e-4
+
+video:
+  seed: 42
+  epochs: 30
+  lr: 1.0e-4
+  batch_size: 16
+  val_batch_size: 8
+  num_workers: 4
+  early_stopping:
+    patience: 10
+    min_delta: 1.0e-4

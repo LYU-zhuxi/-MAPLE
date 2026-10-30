@@ -66,7 +66,6 @@ Run the script below to download all three resources to the paths in `configs/ma
 ```bash
 # Run from the repository root in the maple environment.
 python scripts/download_pretrained.py
-
 # Downloaded files:
 # weights/
 # |-- Qwen3-Omni-AudioTransformer/
@@ -100,34 +99,26 @@ Download our trained checkpoints from [Hugging Face](https://huggingface.co/Lyu-
 Run inference on the examples in `datasets/examples` using our trained checkpoints:
 
 ```bash
-python inference.py
+python infer_demo.py
 # Use custom data and checkpoints:
 # Segment-level and patient-level predictions are saved to `runs/infer/<checkpoint-folder-name>/`.
-# python inference.py --input datasets/my_examples --checkpoints runs/train/my_experiment --device cuda:0
+# python infer_demo.py --input datasets/my_examples --checkpoints runs/train/my_experiment --device cuda:0
 ```
 
-For your own data, organize paired audio and mouth-ROI video segments by patient ID and provide a `test.json` file:
+For your own data, organize paired audio and mouth-ROI video segments by patient ID and provide a `test.jsonl` file:
 
 ```text
 datasets/my_examples/
-|-- test.json
+|-- test.jsonl
 `-- N_F_10002/
     |-- segment_001.wav
     `-- segment_001.avi
 ```
 
-Use the following JSON format. Media paths are relative to the input directory, and `txt` contains the spoken transcript. Severity labels are not required.
+Media paths are relative to the input directory. Each `txt` must contain a nonempty spoken transcript; `NA` is not accepted for the demo. Severity labels are not required.
 
-```json
-[
-  {
-    "ID": "segment_001",
-    "speaker": "N_F_10002",
-    "wav": "N_F_10002/segment_001.wav",
-    "video": "N_F_10002/segment_001.avi",
-    "txt": "冰"
-  }
-]
+```jsonl
+{"ID": "segment_001", "speaker": "N_F_10002", "wav": "N_F_10002/segment_001.wav", "video": "N_F_10002/segment_001.avi", "txt": "冰"}
 ```
 
 ## ⚙️ Training

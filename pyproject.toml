@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "maple-dysarthria"
+version = "0.1.0"
+description = "Multi-layer pathology representations and sparse dual-expert fusion"
+requires-python = ">=3.9"
+dependencies = ["torch>=2.1", "numpy", "PyYAML", "soundfile", "scipy", "opencv-python", "tqdm>=4.66,<5"]
+
+[project.scripts]
+maple = "maple.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["maple*"]

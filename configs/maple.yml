@@ -1,0 +1,110 @@
+training_config: training.yml
+task:
+  classes: {0: Normal, 1: Mild, 2: Moderate, 3: Severe}
+data:
+  root: datasets/MSDM
+  train: datasets/MSDM/manifests/train.jsonl
+  val: datasets/MSDM/manifests/val.jsonl
+  test: datasets/MSDM/manifests/test.jsonl
+pretrained:
+  qwen: weights/Qwen3-Omni-AudioTransformer
+  avhubert: weights/avhubert/large_vox_iter5.pt
+  avhubert_source: external/av_hubert
+  dolphin:
+    checkpoint: weights/dolphin/small.pt
+    config: weights/dolphin/config.yaml
+    bpe: weights/dolphin/bpe.model
+    stats: weights/dolphin/feats_stats.npz
+paths:
+  experiment: maple  # Folder name only; checkpoints and logs are saved under runs/train/<experiment>/.
+  frozen_run: null  # For router-only ablations, set to runs/train/<source_experiment>.
+  ctc: cache/dolphin
+  results: null  # Default: runs/test/<experiment>/. Set a path to override.
+
+branch:
+  audio: {fusion: local, chunk: 4, dolphin: true}
+  video: {fusion: local, chunk: 4, dolphin: false}
+
+router:
+  fusion: entmax  # entmax / softmax / average / global
+  supervision: preference  # preference / none / gt_nll
+  protocol: oof  # oof / in_sample
+
+# Ablation recipes below are comments only; edit the active settings above.
+# Table 2: Unimodal Representation Learning
+# Apply audio/video settings under branch.
+#
+# Default / Local Adaptive / Chunk K=4:
+#   audio: {fusion: local, chunk: 4, dolphin: true}
+#   video: {fusion: local, chunk: 4, dolphin: false}
+#
+# Single Layer (A27 / V24):
+#   audio: {fusion: single, chunk: 4, dolphin: true}
+#   video: {fusion: single, chunk: 4, dolphin: false}
+#   Uses audio layer 27 or video layer 24; chunk is ignored.
+#
+# Concat + Linear:
+#   audio: {fusion: concat, chunk: 4, dolphin: true}
+#   video: {fusion: concat, chunk: 4, dolphin: false}
+#   Concatenates adapted layer features, then applies a linear projection.
+#   chunk is ignored.
+#
+# Global Weighting:
+#   audio: {fusion: global, chunk: 4, dolphin: true}
+#   video: {fusion: global, chunk: 4, dolphin: false}
+#   Learns one set of layer weights shared across samples and time.
+#   chunk is ignored.
+#
+# w/o Dolphin (audio only):
+#   audio: {fusion: local, chunk: 4, dolphin: false}
+#   Video configuration remains unchanged.
+#
+# Chunk K=2:
+#   audio: {fusion: local, chunk: 2, dolphin: true}
+#   video: {fusion: local, chunk: 2, dolphin: false}
+#
+# Chunk K=8:
+#   audio: {fusion: local, chunk: 8, dolphin: true}
+#   video: {fusion: local, chunk: 8, dolphin: false}
+#
+# Change only the settings specified above for each ablation.
+# Use a different paths.experiment name for each experiment.
+
+# Table 3: Expert Fusion and Routing
+#
+# Cross-fitting (Ours, default):
+#   router: {fusion: entmax, supervision: preference, protocol: oof}
+#
+# Average:
+#   router: {fusion: average, supervision: none, protocol: oof}
+#   Fixed equal weights; no trainable gate.
+#   Expert temperature calibration is retained.
+#
+# Global Weight:
+#   router: {fusion: global, supervision: none, protocol: oof}
+#   One learned fusion coefficient shared across all samples.
+#
+# Softmax:
+#   router: {fusion: softmax, supervision: preference, protocol: oof}
+#
+# GT-NLL:
+#   router: {fusion: entmax, supervision: gt_nll, protocol: oof}
+#   Training targets select the expert with lower ground-truth NLL.
+#   No ground-truth labels are used during inference.
+#
+# w/o Pref.:
+#   router: {fusion: entmax, supervision: none, protocol: oof}
+#   Removes L_unique and L_regret; retains the other router losses.
+#
+# In-sample:
+#   router: {fusion: entmax, supervision: preference, protocol: in_sample}
+#   Uses full-training-set expert predictions instead of OOF predictions.
+#
+# Static / Synergy:
+#   Evaluate with "python -m maple.cli test-experts".
+#   No router configuration change or retraining is needed.
+#
+# Keep the branches and experts fixed across router ablations.
+# Set paths.frozen_run to runs/train/<source_experiment> to reuse them
+# and their prediction caches; OOF variants require oof/oof.pt.
+# Use a new paths.experiment name, then run only router and test.
