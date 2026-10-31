@@ -21,9 +21,10 @@ MAPLE combines multi-layer audio and visual representations with two complementa
 ## 📝 To-Do List
 
 - [x] Submitted to ICASSP 2027
-- [ ] Release project paper
-- [ ] Release code
-- [x] Release pretrained models
+- [x] Released Pretrained Models and Inference_demo
+- [ ] Release Project paper 
+- [ ] Release Traing Code
+
 
 ## 🚀 Quick Start
 
