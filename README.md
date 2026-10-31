@@ -189,6 +189,10 @@ python -m maple.cli test-experts --device cuda:0
 
 Results are saved to `runs/test/<experiment>/`, including predictions and segment-level Precision, Accuracy, F1, patient-level F1, and Final F1. All commands use `configs/maple.yml` by default; add `--config path/to/config.yml` to use another configuration.
 
+## License
+
+Original MAPLE source code is released under the [MIT License](LICENSE). Third-party components in `external/` retain their own licenses. Model checkpoints are subject to the separate [model license](https://huggingface.co/Lyu-1211/maple/blob/main/LICENSE); MSDM data and example media remain subject to the dataset provider's terms.
+
 ## Citation
 
 ```
